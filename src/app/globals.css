@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --apple-bg: #f5f5f7;
+  --apple-card: #ffffff;
+  --apple-ink: #1d1d1f;
+  --apple-secondary: #6e6e73;
+}
+
+body {
+  background-color: var(--apple-bg);
+  color: var(--apple-ink);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+    "Inter", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
