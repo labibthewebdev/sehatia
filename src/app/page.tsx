@@ -288,11 +288,13 @@ export default function LandingPage() {
                         fill="transparent"
                       />
                     </svg>
-                    <div className="absolute text-center">
-                      <span className="block text-base font-bold leading-none">
+                    <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center text-center">
+                      <span className="block text-base font-bold leading-none text-[#1D1D1F]">
                         75%
                       </span>
-                      <span className="text-[10px] text-[#6E6E73]">Tercapai</span>
+                      <span className="mt-1 text-[10px] font-medium leading-none text-[#6E6E73]">
+                        Tercapai
+                      </span>
                     </div>
                   </div>
 
