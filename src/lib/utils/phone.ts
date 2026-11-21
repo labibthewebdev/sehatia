@@ -1,5 +1,6 @@
 export function normalizePhoneNumber(raw: string): string {
-  let digits = raw.replace(/\D/g, "");
+  const withoutJid = raw.split("@")[0] || raw;
+  let digits = withoutJid.replace(/\D/g, "");
   if (digits.startsWith("0")) {
     digits = "62" + digits.slice(1);
   } else if (digits.startsWith("8")) {

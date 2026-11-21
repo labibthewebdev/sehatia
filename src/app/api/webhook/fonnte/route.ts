@@ -80,10 +80,12 @@ export async function POST(req: NextRequest) {
     const rawSender = extractField(body, [
       "sender",
       "pengirim",
-      "from",
+      "username",
       "phone",
       "number",
+      "from",
       "chatid",
+      "senderlid",
     ]);
     const messageText = extractField(body, [
       "message",
