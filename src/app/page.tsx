@@ -63,24 +63,36 @@ export default function LandingPage() {
       </header>
 
       <main className="overflow-hidden">
-        {/* BAND 1: HERO — Terang Bersih dengan Emerald/Teal Mesh Glow */}
-        <section className="relative border-b border-black/[0.06] bg-gradient-to-b from-[#ECFDF5]/80 via-white to-[#F5F5F7] pb-20 pt-14 sm:pt-20">
+        {/* BAND 1: HERO — Apple-style Layered Mesh, Spotlight & Quick-Prompt Strip */}
+        <section className="relative border-b border-black/[0.06] bg-gradient-to-b from-[#E6F7F0] via-[#F9FCFB] to-[#F5F5F7] pb-20 pt-14 sm:pt-20">
+          {/* Dual Ambient Glow + Subtle Grid Wash */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute left-1/2 top-8 h-[460px] w-[820px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.22),rgba(20,184,166,0.12)_48%,transparent_75%)] blur-2xl"
+            className="pointer-events-none absolute -left-24 top-10 h-[380px] w-[380px] rounded-full bg-[radial-gradient(circle,rgba(16,185,129,0.22),transparent_70%)] blur-3xl"
+          />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute -right-24 top-24 h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle,rgba(20,184,166,0.18),transparent_70%)] blur-3xl"
+          />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute left-1/2 top-4 h-[480px] w-[860px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.18),rgba(240,253,250,0.4)_52%,transparent_76%)] blur-2xl"
           />
 
           <div className="relative mx-auto max-w-6xl px-6">
             <div className="mx-auto max-w-3xl text-center">
-              <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-emerald-600/15 bg-white/95 px-4 py-1.5 text-xs font-medium text-[#1D1D1F] shadow-sm backdrop-blur">
+              <div className="mb-5 inline-flex flex-wrap items-center justify-center gap-2 rounded-full border border-emerald-700/15 bg-white/95 px-4 py-1.5 text-xs font-medium text-[#1D1D1F] shadow-[0_4px_16px_rgba(16,185,129,0.08)] backdrop-blur">
                 <Sparkles className="h-3.5 w-3.5 text-emerald-600" />
                 <span>AI Nutritionist • Standar TKPI Kemenkes Indonesia</span>
+                <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold text-emerald-700">
+                  Trial 3 Hari
+                </span>
               </div>
 
-              <h1 className="text-4xl font-semibold tracking-tight text-[#1D1D1F] sm:text-6xl sm:leading-[1.06]">
+              <h1 className="text-4xl font-semibold tracking-tight text-[#1D1D1F] sm:text-6xl sm:leading-[1.05]">
                 Pola makan sehat.
                 <br />
-                <span className="bg-gradient-to-r from-emerald-600 via-teal-500 to-emerald-500 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-emerald-600 via-teal-500 to-emerald-600 bg-clip-text text-transparent">
                   Semudah kirim foto.
                 </span>
               </h1>
@@ -96,24 +108,37 @@ export default function LandingPage() {
                   href={waStartLink}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-emerald-600 px-7 py-3.5 text-sm font-semibold text-white shadow-[0_8px_20px_rgba(5,150,105,0.25)] transition hover:bg-emerald-700 sm:w-auto"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-emerald-600 px-7 py-3.5 text-sm font-semibold text-white shadow-[0_10px_24px_rgba(5,150,105,0.28)] transition hover:bg-emerald-700 sm:w-auto"
                 >
                   <MessageCircle className="h-4 w-4" />
                   Mulai Trial Gratis di WhatsApp
                 </a>
                 <Link
                   href="/login"
-                  className="inline-flex w-full items-center justify-center gap-1.5 rounded-full border border-black/[0.08] bg-white px-7 py-3.5 text-sm font-medium text-[#1D1D1F] shadow-sm transition hover:bg-black/[0.02] sm:w-auto"
+                  className="inline-flex w-full items-center justify-center gap-1.5 rounded-full border border-black/[0.08] bg-white/95 px-7 py-3.5 text-sm font-medium text-[#1D1D1F] shadow-sm backdrop-blur transition hover:bg-white sm:w-auto"
                 >
                   Lihat Web Dashboard
                   <ArrowRight className="h-4 w-4 text-[#6E6E73]" />
                 </Link>
               </div>
+
+              {/* Apple-style Key Highlights Strip */}
+              <div className="mt-8 flex flex-wrap items-center justify-center gap-2.5 text-[11px] font-medium text-[#6E6E73]">
+                <span className="rounded-full border border-black/[0.06] bg-white/80 px-3.5 py-1 backdrop-blur">
+                  ✓ Cocok untuk masakan rumahan & warteg
+                </span>
+                <span className="rounded-full border border-black/[0.06] bg-white/80 px-3.5 py-1 backdrop-blur">
+                  ✓ Koreksi porsi lewat chat
+                </span>
+                <span className="rounded-full border border-black/[0.06] bg-white/80 px-3.5 py-1 backdrop-blur">
+                  ✓ Sinkron otomatis ke Dashboard
+                </span>
+              </div>
             </div>
 
             {/* VISUAL SHOWCASE */}
             <div className="mt-14 grid items-center gap-6 lg:grid-cols-12">
-              <div className="rounded-[32px] border border-black/[0.07] bg-white p-6 shadow-[0_14px_40px_rgba(0,0,0,0.06)] lg:col-span-4">
+              <div className="rounded-[32px] border border-black/[0.07] bg-white/95 p-6 shadow-[0_16px_44px_rgba(0,0,0,0.06)] backdrop-blur lg:col-span-4">
                 <div className="flex items-center justify-between border-b border-black/[0.06] pb-4">
                   <div className="flex items-center gap-2.5">
                     <div className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-600 text-xs font-bold text-white">
@@ -165,7 +190,7 @@ export default function LandingPage() {
                 </div>
               </div>
 
-              <div className="relative overflow-hidden rounded-[36px] border border-black/[0.07] bg-white shadow-[0_20px_50px_rgba(0,0,0,0.09)] lg:col-span-4">
+              <div className="relative overflow-hidden rounded-[36px] border border-black/[0.07] bg-white shadow-[0_22px_54px_rgba(0,0,0,0.1)] lg:col-span-4">
                 <div className="relative h-[410px] w-full">
                   <img
                     src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=900&q=85"
@@ -197,7 +222,7 @@ export default function LandingPage() {
                 </div>
               </div>
 
-              <div className="rounded-[32px] border border-black/[0.07] bg-white p-6 shadow-[0_14px_40px_rgba(0,0,0,0.06)] lg:col-span-4">
+              <div className="rounded-[32px] border border-black/[0.07] bg-white/95 p-6 shadow-[0_16px_44px_rgba(0,0,0,0.06)] backdrop-blur lg:col-span-4">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-xs font-medium text-[#6E6E73]">
