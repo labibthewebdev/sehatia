@@ -63,8 +63,8 @@ export default function LandingPage() {
       </header>
 
       <main className="overflow-hidden">
-        {/* BAND 1: HERO — Video Background (/videos/hero-salad.mp4) + Scrim Kontras Tinggi */}
-        <section className="relative border-b border-black/[0.08] bg-[#EEF7F2] pb-20 pt-14 sm:pt-20">
+        {/* BAND 1: HERO — Editorial Dark Scrim di Atas /videos/hero-salad.mp4 + Teks Terang Kontras Tinggi */}
+        <section className="relative border-b border-black/[0.08] bg-[#0B120F] pb-20 pt-14 text-white sm:pt-20">
           <video
             src="/videos/hero-salad.mp4"
             poster="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=1400&q=80"
@@ -74,41 +74,41 @@ export default function LandingPage() {
             playsInline
             preload="metadata"
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center opacity-85 contrast-105"
+            className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center opacity-80 contrast-105"
           />
-          {/* Scrim terang terukur agar gerakan video jauh lebih jelas namun teks gelap tetap tajam */}
+          {/* Dark editorial gradient overlay agar video tetap hidup namun teks terang sangat jelas */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#F4FBF7]/62 via-[#F7FCFA]/58 to-[#F5F5F7]/85"
-          />
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute -left-24 top-10 h-[380px] w-[380px] rounded-full bg-[radial-gradient(circle,rgba(16,185,129,0.18),transparent_70%)] blur-3xl"
+            className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/72 via-black/62 to-[#121916]/90"
           />
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute -right-24 top-24 h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle,rgba(20,184,166,0.16),transparent_70%)] blur-3xl"
+            className="pointer-events-none absolute -left-24 top-10 h-[380px] w-[380px] rounded-full bg-[radial-gradient(circle,rgba(16,185,129,0.22),transparent_70%)] blur-3xl"
+          />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute -right-24 top-24 h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle,rgba(20,184,166,0.18),transparent_70%)] blur-3xl"
           />
 
           <div className="relative z-10 mx-auto max-w-6xl px-6">
             <div className="mx-auto max-w-3xl text-center">
-              <div className="mb-5 inline-flex flex-wrap items-center justify-center gap-2 rounded-full border border-emerald-700/15 bg-white px-4 py-1.5 text-xs font-medium text-[#1D1D1F] shadow-sm">
-                <Sparkles className="h-3.5 w-3.5 text-emerald-600" />
+              <div className="mb-5 inline-flex flex-wrap items-center justify-center gap-2 rounded-full border border-white/15 bg-black/55 px-4 py-1.5 text-xs font-medium text-white shadow-sm backdrop-blur-md">
+                <Sparkles className="h-3.5 w-3.5 text-emerald-400" />
                 <span>AI Nutritionist • Standar TKPI Kemenkes Indonesia</span>
-                <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold text-emerald-700">
+                <span className="rounded-full bg-emerald-500/20 px-2 py-0.5 text-[10px] font-semibold text-emerald-300">
                   Trial 3 Hari
                 </span>
               </div>
 
-              <h1 className="text-4xl font-semibold tracking-tight text-[#1D1D1F] sm:text-6xl sm:leading-[1.05]">
+              <h1 className="text-4xl font-semibold tracking-tight text-white drop-shadow-[0_2px_14px_rgba(0,0,0,0.55)] sm:text-6xl sm:leading-[1.05]">
                 Pola makan sehat.
                 <br />
-                <span className="bg-gradient-to-r from-emerald-600 via-teal-500 to-emerald-600 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-emerald-300 via-teal-200 to-emerald-400 bg-clip-text text-transparent">
                   Semudah kirim foto.
                 </span>
               </h1>
 
-              <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-[#6E6E73] sm:text-lg">
+              <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-zinc-100 drop-shadow-[0_1px_10px_rgba(0,0,0,0.65)] sm:text-lg">
                 Tanpa ribet timbang makanan atau instal aplikasi berat. Foto menu
                 harianmu ke WhatsApp Sehatia—kalori, protein, dan progres dietmu
                 langsung tersaji rapi.
@@ -119,28 +119,28 @@ export default function LandingPage() {
                   href={waStartLink}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-emerald-600 px-7 py-3.5 text-sm font-semibold text-white shadow-[0_10px_24px_rgba(5,150,105,0.28)] transition hover:bg-emerald-700 sm:w-auto"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-emerald-500 px-7 py-3.5 text-sm font-semibold text-slate-950 shadow-[0_10px_24px_rgba(16,185,129,0.35)] transition hover:bg-emerald-400 sm:w-auto"
                 >
                   <MessageCircle className="h-4 w-4" />
                   Mulai Trial Gratis di WhatsApp
                 </a>
                 <Link
                   href="/login"
-                  className="inline-flex w-full items-center justify-center gap-1.5 rounded-full border border-black/[0.08] bg-white px-7 py-3.5 text-sm font-medium text-[#1D1D1F] shadow-sm transition hover:bg-black/[0.02] sm:w-auto"
+                  className="inline-flex w-full items-center justify-center gap-1.5 rounded-full border border-white/20 bg-white/95 px-7 py-3.5 text-sm font-medium text-[#1D1D1F] shadow-sm backdrop-blur transition hover:bg-white sm:w-auto"
                 >
                   Lihat Web Dashboard
                   <ArrowRight className="h-4 w-4 text-[#6E6E73]" />
                 </Link>
               </div>
 
-              <div className="mt-8 flex flex-wrap items-center justify-center gap-2.5 text-[11px] font-medium text-[#6E6E73]">
-                <span className="rounded-full border border-black/[0.07] bg-white px-3.5 py-1">
+              <div className="mt-8 flex flex-wrap items-center justify-center gap-2.5 text-[11px] font-medium text-zinc-100">
+                <span className="rounded-full border border-white/15 bg-black/55 px-3.5 py-1 backdrop-blur-md">
                   ✓ Cocok untuk masakan rumahan & warteg
                 </span>
-                <span className="rounded-full border border-black/[0.07] bg-white px-3.5 py-1">
+                <span className="rounded-full border border-white/15 bg-black/55 px-3.5 py-1 backdrop-blur-md">
                   ✓ Koreksi porsi lewat chat
                 </span>
-                <span className="rounded-full border border-black/[0.07] bg-white px-3.5 py-1">
+                <span className="rounded-full border border-white/15 bg-black/55 px-3.5 py-1 backdrop-blur-md">
                   ✓ Sinkron otomatis ke Dashboard
                 </span>
               </div>
