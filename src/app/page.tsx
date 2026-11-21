@@ -63,9 +63,25 @@ export default function LandingPage() {
       </header>
 
       <main className="overflow-hidden">
-        {/* BAND 1: HERO — Apple-style Layered Mesh, Spotlight & Quick-Prompt Strip */}
-        <section className="relative border-b border-black/[0.06] bg-gradient-to-b from-[#E6F7F0] via-[#F9FCFB] to-[#F5F5F7] pb-20 pt-14 sm:pt-20">
-          {/* Dual Ambient Glow + Subtle Grid Wash */}
+        {/* BAND 1: HERO — Video Background Loop (/videos/hero-salad.mp4) + Apple Frosted Overlay */}
+        <section className="relative border-b border-black/[0.06] bg-[#0F1714] pb-20 pt-14 sm:pt-20">
+          {/* Background Video Loop */}
+          <video
+            src="/videos/hero-salad.mp4"
+            poster="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=1400&q=80"
+            autoPlay
+            muted
+            loop
+            playsInline
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-45 scale-105"
+          />
+
+          {/* Layered Apple-style Light/Mint & Emerald Gradient Scrim for High Readability */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#EAF8F2]/92 via-[#F7FCF9]/88 to-[#F5F5F7]/96"
+          />
           <div
             aria-hidden="true"
             className="pointer-events-none absolute -left-24 top-10 h-[380px] w-[380px] rounded-full bg-[radial-gradient(circle,rgba(16,185,129,0.22),transparent_70%)] blur-3xl"
@@ -74,14 +90,10 @@ export default function LandingPage() {
             aria-hidden="true"
             className="pointer-events-none absolute -right-24 top-24 h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle,rgba(20,184,166,0.18),transparent_70%)] blur-3xl"
           />
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute left-1/2 top-4 h-[480px] w-[860px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.18),rgba(240,253,250,0.4)_52%,transparent_76%)] blur-2xl"
-          />
 
           <div className="relative mx-auto max-w-6xl px-6">
             <div className="mx-auto max-w-3xl text-center">
-              <div className="mb-5 inline-flex flex-wrap items-center justify-center gap-2 rounded-full border border-emerald-700/15 bg-white/95 px-4 py-1.5 text-xs font-medium text-[#1D1D1F] shadow-[0_4px_16px_rgba(16,185,129,0.08)] backdrop-blur">
+              <div className="mb-5 inline-flex flex-wrap items-center justify-center gap-2 rounded-full border border-emerald-700/15 bg-white/95 px-4 py-1.5 text-xs font-medium text-[#1D1D1F] shadow-[0_4px_16px_rgba(16,185,129,0.08)] backdrop-blur-md">
                 <Sparkles className="h-3.5 w-3.5 text-emerald-600" />
                 <span>AI Nutritionist • Standar TKPI Kemenkes Indonesia</span>
                 <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold text-emerald-700">
@@ -97,7 +109,7 @@ export default function LandingPage() {
                 </span>
               </h1>
 
-              <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-[#6E6E73] sm:text-lg">
+              <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-[#4A4A4F] sm:text-lg">
                 Tanpa ribet timbang makanan atau instal aplikasi berat. Foto menu
                 harianmu ke WhatsApp Sehatia—kalori, protein, dan progres dietmu
                 langsung tersaji rapi.
@@ -115,7 +127,7 @@ export default function LandingPage() {
                 </a>
                 <Link
                   href="/login"
-                  className="inline-flex w-full items-center justify-center gap-1.5 rounded-full border border-black/[0.08] bg-white/95 px-7 py-3.5 text-sm font-medium text-[#1D1D1F] shadow-sm backdrop-blur transition hover:bg-white sm:w-auto"
+                  className="inline-flex w-full items-center justify-center gap-1.5 rounded-full border border-black/[0.08] bg-white/95 px-7 py-3.5 text-sm font-medium text-[#1D1D1F] shadow-sm backdrop-blur-md transition hover:bg-white sm:w-auto"
                 >
                   Lihat Web Dashboard
                   <ArrowRight className="h-4 w-4 text-[#6E6E73]" />
@@ -123,14 +135,14 @@ export default function LandingPage() {
               </div>
 
               {/* Apple-style Key Highlights Strip */}
-              <div className="mt-8 flex flex-wrap items-center justify-center gap-2.5 text-[11px] font-medium text-[#6E6E73]">
-                <span className="rounded-full border border-black/[0.06] bg-white/80 px-3.5 py-1 backdrop-blur">
+              <div className="mt-8 flex flex-wrap items-center justify-center gap-2.5 text-[11px] font-medium text-[#4A4A4F]">
+                <span className="rounded-full border border-black/[0.07] bg-white/90 px-3.5 py-1 backdrop-blur-md">
                   ✓ Cocok untuk masakan rumahan & warteg
                 </span>
-                <span className="rounded-full border border-black/[0.06] bg-white/80 px-3.5 py-1 backdrop-blur">
+                <span className="rounded-full border border-black/[0.07] bg-white/90 px-3.5 py-1 backdrop-blur-md">
                   ✓ Koreksi porsi lewat chat
                 </span>
-                <span className="rounded-full border border-black/[0.06] bg-white/80 px-3.5 py-1 backdrop-blur">
+                <span className="rounded-full border border-black/[0.07] bg-white/90 px-3.5 py-1 backdrop-blur-md">
                   ✓ Sinkron otomatis ke Dashboard
                 </span>
               </div>
@@ -138,7 +150,7 @@ export default function LandingPage() {
 
             {/* VISUAL SHOWCASE */}
             <div className="mt-14 grid items-center gap-6 lg:grid-cols-12">
-              <div className="rounded-[32px] border border-black/[0.07] bg-white/95 p-6 shadow-[0_16px_44px_rgba(0,0,0,0.06)] backdrop-blur lg:col-span-4">
+              <div className="rounded-[32px] border border-black/[0.07] bg-white/95 p-6 shadow-[0_16px_44px_rgba(0,0,0,0.06)] backdrop-blur-xl lg:col-span-4">
                 <div className="flex items-center justify-between border-b border-black/[0.06] pb-4">
                   <div className="flex items-center gap-2.5">
                     <div className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-600 text-xs font-bold text-white">
@@ -190,11 +202,16 @@ export default function LandingPage() {
                 </div>
               </div>
 
+              {/* Center Showcase Card dengan Live Video Loop */}
               <div className="relative overflow-hidden rounded-[36px] border border-black/[0.07] bg-white shadow-[0_22px_54px_rgba(0,0,0,0.1)] lg:col-span-4">
                 <div className="relative h-[410px] w-full">
-                  <img
-                    src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=900&q=85"
-                    alt="Hidangan Sehat Seimbang"
+                  <video
+                    src="/videos/hero-salad.mp4"
+                    poster="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=900&q=85"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
                     className="h-full w-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
@@ -222,7 +239,7 @@ export default function LandingPage() {
                 </div>
               </div>
 
-              <div className="rounded-[32px] border border-black/[0.07] bg-white/95 p-6 shadow-[0_16px_44px_rgba(0,0,0,0.06)] backdrop-blur lg:col-span-4">
+              <div className="rounded-[32px] border border-black/[0.07] bg-white/95 p-6 shadow-[0_16px_44px_rgba(0,0,0,0.06)] backdrop-blur-xl lg:col-span-4">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-xs font-medium text-[#6E6E73]">
