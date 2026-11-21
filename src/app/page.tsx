@@ -74,12 +74,12 @@ export default function LandingPage() {
             playsInline
             preload="metadata"
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center opacity-55"
+            className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center opacity-85 contrast-105"
           />
-          {/* Scrim terang lembut agar teks gelap tetap kontras & tidak berantakan */}
+          {/* Scrim terang terukur agar gerakan video jauh lebih jelas namun teks gelap tetap tajam */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#F4FBF7]/85 via-[#F7FCFA]/82 to-[#F5F5F7]/95 backdrop-blur-[2px]"
+            className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#F4FBF7]/62 via-[#F7FCFA]/58 to-[#F5F5F7]/85"
           />
           <div
             aria-hidden="true"
