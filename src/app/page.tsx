@@ -184,22 +184,27 @@ export default function LandingPage() {
                 </div>
               </div>
 
-              {/* Center Showcase Card dengan Foto HD Stabil */}
-              <div className="relative overflow-hidden rounded-[36px] border border-black/[0.07] bg-white shadow-[0_22px_54px_rgba(0,0,0,0.1)] lg:col-span-4">
+              {/* Center Showcase Card: Video /videos/hero-salad.mp4 Disesuaikan di Dalam Frame */}
+              <div className="relative overflow-hidden rounded-[36px] border border-black/[0.07] bg-[#0F1714] shadow-[0_22px_54px_rgba(0,0,0,0.12)] lg:col-span-4">
                 <div className="relative h-[410px] w-full">
-                  <img
-                    src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=900&q=85"
-                    alt="Hidangan Sehat Seimbang"
-                    className="h-full w-full object-cover"
+                  <video
+                    src="/videos/hero-salad.mp4"
+                    poster="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=900&q=85"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="metadata"
+                    className="h-full w-full object-cover object-center"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/15" />
 
-                  <div className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3.5 py-1.5 text-[11px] font-semibold text-[#1D1D1F] backdrop-blur-md">
+                  <div className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3.5 py-1.5 text-[11px] font-semibold text-[#1D1D1F] shadow-sm backdrop-blur-md">
                     <Camera className="h-3.5 w-3.5 text-emerald-600" />
                     <span>AI Vision Scan • 98% Akurat</span>
                   </div>
 
-                  <div className="absolute bottom-4 left-4 right-4 rounded-3xl border border-white/20 bg-white/95 p-4 backdrop-blur-xl">
+                  <div className="absolute bottom-4 left-4 right-4 rounded-3xl border border-white/25 bg-white/95 p-4 shadow-lg backdrop-blur-xl">
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-[11px] font-medium text-[#6E6E73]">
