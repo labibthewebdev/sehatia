@@ -18,12 +18,23 @@ export async function sendWhatsAppMessage(targetPhone: string, message: string) 
     }),
   });
 
-  if (!response.ok) {
-    const errText = await response.text();
-    console.error("Gagal kirim pesan Fonnte:", errText);
+  const rawBody = await response.text();
+  let parsed: Record<string, unknown> | null = null;
+  try {
+    parsed = JSON.parse(rawBody);
+  } catch {
+    parsed = { raw: rawBody };
   }
 
-  return response.json().catch(() => null);
+  if (!response.ok || (parsed && parsed.status === false)) {
+    console.error("Gagal kirim pesan Fonnte:", {
+      httpStatus: response.status,
+      targetPhone,
+      response: parsed,
+    });
+  }
+
+  return parsed;
 }
 
 export async function downloadMediaAsBase64(

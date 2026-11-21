@@ -18,34 +18,109 @@ export async function GET() {
   return NextResponse.json({
     ok: true,
     service: "Sehatia Fonnte Webhook",
+    hasFonnteToken: Boolean(process.env.FONNTE_TOKEN),
+    hasGeminiKey: Boolean(process.env.GEMINI_API_KEY),
+    hasSupabaseUrl: Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL),
+    hasSupabaseServiceKey: Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY),
   });
+}
+
+function extractField(body: Record<string, unknown>, keys: string[]): string {
+  for (const k of keys) {
+    const val = body[k];
+    if (typeof val === "string" && val.trim()) {
+      return val.trim();
+    }
+    if (typeof val === "number") {
+      return String(val);
+    }
+  }
+  return "";
 }
 
 export async function POST(req: NextRequest) {
   try {
     const supabaseAdmin = getSupabaseAdmin();
     const contentType = req.headers.get("content-type") || "";
-    let body: Record<string, string> = {};
+    let body: Record<string, unknown> = {};
 
     if (contentType.includes("application/json")) {
-      body = await req.json();
-    } else {
-      const formData = await req.formData();
-      formData.forEach((value, key) => {
-        body[key] = String(value);
+      const parsed = await req.json().catch(() => ({}));
+      if (parsed && typeof parsed === "object") {
+        body = parsed as Record<string, unknown>;
+      }
+    } else if (contentType.includes("application/x-www-form-urlencoded")) {
+      const rawText = await req.text();
+      const params = new URLSearchParams(rawText);
+      params.forEach((value, key) => {
+        body[key] = value;
       });
+    } else {
+      const formData = await req.formData().catch(() => null);
+      if (formData) {
+        formData.forEach((value, key) => {
+          body[key] = String(value);
+        });
+      } else {
+        const rawText = await req.text().catch(() => "");
+        try {
+          const parsed = JSON.parse(rawText);
+          if (parsed && typeof parsed === "object") {
+            body = parsed as Record<string, unknown>;
+          }
+        } catch {
+          const params = new URLSearchParams(rawText);
+          params.forEach((value, key) => {
+            body[key] = value;
+          });
+        }
+      }
     }
 
-    const rawSender = body.sender || body.pengirim || "";
-    const messageText = (body.message || body.pesan || "").trim();
-    const mediaUrl = (body.url || body.file || "").trim();
-    const isGroup = body.isgroup === "true" || rawSender.includes("@g.us");
+    const rawSender = extractField(body, [
+      "sender",
+      "pengirim",
+      "from",
+      "phone",
+      "number",
+      "chatid",
+    ]);
+    const messageText = extractField(body, [
+      "message",
+      "pesan",
+      "text",
+      "body",
+      "caption",
+    ]);
+    const mediaUrl = extractField(body, [
+      "url",
+      "file",
+      "media",
+      "image",
+      "picture",
+    ]);
+    const rawIsGroup = extractField(body, ["isgroup", "isGroup", "group"]);
+    const isGroup =
+      rawIsGroup.toLowerCase() === "true" ||
+      rawIsGroup === "1" ||
+      rawSender.includes("@g.us");
+
+    console.log("Webhook Fonnte masuk:", {
+      rawSender,
+      hasMessage: Boolean(messageText),
+      hasMedia: Boolean(mediaUrl),
+      isGroup,
+    });
 
     if (!rawSender || isGroup) {
-      return NextResponse.json({ status: "ignored" });
+      return NextResponse.json({ status: "ignored", reason: "empty_or_group" });
     }
 
     const phone = normalizePhoneNumber(rawSender);
+    if (!phone) {
+      return NextResponse.json({ status: "ignored", reason: "invalid_phone" });
+    }
+
     const appUrl =
       process.env.NEXT_PUBLIC_APP_URL || "https://sehatia-blush.vercel.app";
     const adminWa =
@@ -58,14 +133,24 @@ export async function POST(req: NextRequest) {
     }
 
     // 1. Cek atau buat user baru
-    let { data: user } = await supabaseAdmin
+    const { data: existingUser, error: selectUserError } = await supabaseAdmin
       .from("users")
       .select("*")
       .eq("phone_number", phone)
-      .single();
+      .maybeSingle();
+
+    if (selectUserError) {
+      console.error("Error membaca tabel users:", selectUserError);
+      return NextResponse.json(
+        { status: "db_select_error", detail: selectUserError.message },
+        { status: 500 }
+      );
+    }
+
+    let user = existingUser;
 
     if (!user) {
-      const { data: newUser, error } = await supabaseAdmin
+      const { data: newUser, error: insertUserError } = await supabaseAdmin
         .from("users")
         .insert({
           phone_number: phone,
@@ -75,17 +160,28 @@ export async function POST(req: NextRequest) {
         .select("*")
         .single();
 
-      if (error || !newUser) {
-        console.error("Gagal membuat user:", error);
-        return NextResponse.json({ status: "db_error" }, { status: 500 });
+      if (insertUserError || !newUser) {
+        console.error("Gagal membuat user baru:", insertUserError);
+        return NextResponse.json(
+          { status: "db_insert_error", detail: insertUserError?.message },
+          { status: 500 }
+        );
       }
 
-      await sendWhatsAppMessage(
+      const sent = await sendWhatsAppMessage(
         phone,
-        `Halo! Selamat datang di *Sehatia* 🥗\n\nSaya asisten gizi AI pribadimu di WhatsApp. Sebelum mulai mencatat makanan, beri tahu data singkatmu dulu ya agar target kalorimu akurat:\n\n*Jenis kelamin, Usia, Tinggi (cm), Berat (kg), dan Target*\nContoh: _Pria, 27 thn, 172 cm, 75 kg, mau turun ke 68 kg_`
+        `Halo! Selamat datang di *Sehatia* 🥗
+
+Saya asisten gizi AI pribadimu di WhatsApp. Sebelum mulai mencatat makanan, beri tahu data singkatmu dulu ya agar target kalorimu akurat:
+
+*Jenis kelamin, Usia, Tinggi (cm), Berat (kg), dan Target*
+Contoh: _Pria, 27 thn, 172 cm, 75 kg, mau turun ke 68 kg_`
       );
 
-      return NextResponse.json({ status: "onboarding_started" });
+      return NextResponse.json({
+        status: "onboarding_started",
+        sentOk: Boolean(sent),
+      });
     }
 
     const typedUser = user as UserProfile;
@@ -95,7 +191,11 @@ export async function POST(req: NextRequest) {
     if (lowerText === "dashboard" || lowerText === "web" || lowerText === "login") {
       await sendWhatsAppMessage(
         phone,
-        `📊 *Web Dashboard Sehatia*\nPantau grafik kalori & riwayat makanmu di:\n${appUrl}/login\n\n_(Masuk cukup pakai nomor WhatsApp ini & kode OTP)_`
+        `📊 *Web Dashboard Sehatia*
+Pantau grafik kalori & riwayat makanmu di:
+${appUrl}/login
+
+_(Masuk cukup pakai nomor WhatsApp ini & kode OTP)_`
       );
       return NextResponse.json({ status: "dashboard_sent" });
     }
@@ -106,7 +206,14 @@ export async function POST(req: NextRequest) {
       )}`;
       await sendWhatsAppMessage(
         phone,
-        `✨ *Upgrade ke Sehatia Pro*\n\n• Hingga 15x analisis foto & teks makanan/hari\n• Koreksi porsi otomatis lewat chat\n• Grafik & riwayat nutrisi lengkap\n\nPaket mulai *Rp39.000/bulan*. Hubungi admin untuk aktivasi instan:\n${waUpgradeLink}`
+        `✨ *Upgrade ke Sehatia Pro*
+
+• Hingga 15x analisis foto & teks makanan/hari
+• Koreksi porsi otomatis lewat chat
+• Grafik & riwayat nutrisi lengkap
+
+Paket mulai *Rp39.000/bulan*. Hubungi admin untuk aktivasi instan:
+${waUpgradeLink}`
       );
       return NextResponse.json({ status: "upgrade_info_sent" });
     }
@@ -119,7 +226,9 @@ export async function POST(req: NextRequest) {
         await sendWhatsAppMessage(
           phone,
           parsed.missing_fields_prompt ||
-            `Mohon lengkapi data berikut dalam satu chat ya:\n*Jenis kelamin, Usia, Tinggi (cm), dan Berat (kg)*\nContoh: _Wanita, 25 thn, 160 cm, 62 kg, mau turun ke 55 kg_`
+            `Mohon lengkapi data berikut dalam satu chat ya:
+*Jenis kelamin, Usia, Tinggi (cm), dan Berat (kg)*
+Contoh: _Wanita, 25 thn, 160 cm, 62 kg, mau turun ke 55 kg_`
         );
         return NextResponse.json({ status: "onboarding_incomplete" });
       }
@@ -150,7 +259,15 @@ export async function POST(req: NextRequest) {
 
       await sendWhatsAppMessage(
         phone,
-        `✅ *Profil & Target Harian Siap!*\n\n🎯 *Target Kalori:* ${targets.daily_calorie_target.toLocaleString("id-ID")} kkal/hari\n🥩 *Protein:* ${targets.daily_protein_target_g}g | 🍚 *Karbo:* ${targets.daily_carbs_target_g}g | 🥑 *Lemak:* ${targets.daily_fat_target_g}g\n\nKamu mendapat *Trial Gratis 3 Hari* (3x analisis/hari).\nSekarang silakan kirim *foto makanan* atau ketik menu yang baru kamu makan!\n\n📊 Dashboard: ${appUrl}/login`
+        `✅ *Profil & Target Harian Siap!*
+
+🎯 *Target Kalori:* ${targets.daily_calorie_target.toLocaleString("id-ID")} kkal/hari
+🥩 *Protein:* ${targets.daily_protein_target_g}g | 🍚 *Karbo:* ${targets.daily_carbs_target_g}g | 🥑 *Lemak:* ${targets.daily_fat_target_g}g
+
+Kamu mendapat *Trial Gratis 3 Hari* (3x analisis/hari).
+Sekarang silakan kirim *foto makanan* atau ketik menu yang baru kamu makan!
+
+📊 Dashboard: ${appUrl}/login`
       );
 
       return NextResponse.json({ status: "onboarding_completed" });
@@ -182,7 +299,10 @@ export async function POST(req: NextRequest) {
 
       await sendWhatsAppMessage(
         phone,
-        `⚠️ ${reasonMsg}\n\nAktifkan *Sehatia Pro* (Rp39.000/bln) untuk hingga 15x analisis foto & teks setiap hari:\n${waUpgradeLink}`
+        `⚠️ ${reasonMsg}
+
+Aktifkan *Sehatia Pro* (Rp39.000/bln) untuk hingga 15x analisis foto & teks setiap hari:
+${waUpgradeLink}`
       );
       return NextResponse.json({ status: "quota_exceeded" });
     }
