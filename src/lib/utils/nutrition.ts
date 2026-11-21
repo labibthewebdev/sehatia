@@ -1,9 +1,5 @@
 import { GoalType } from "@/types/sehatia";
 
-/**
- * Menghitung target kalori & makronutrisi harian menggunakan rumus Mifflin-St Jeor
- * dengan faktor aktivitas ringan-sedang (1.375) yang realistis untuk pekerja harian.
- */
 export function calculateDailyTargets(params: {
   gender: "male" | "female";
   age: number;
@@ -27,7 +23,6 @@ export function calculateDailyTargets(params: {
     targetCalories = Math.round(tdee + 300);
   }
 
-  // Distribusi makro seimbang untuk diet sehat
   const proteinRatio = goal === "lose_weight" ? 0.3 : 0.25;
   const fatRatio = 0.25;
   const carbsRatio = 1 - proteinRatio - fatRatio;

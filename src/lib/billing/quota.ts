@@ -1,38 +1,38 @@
-import { UserProfile } from "@/types/sehatia";
 import { getSupabaseAdmin } from "@/lib/supabase/admin";
 import { getJakartaDateString } from "@/lib/utils/date";
-
-export function resolveEffectivePlan(user: UserProfile): "pro" | "trial" | "free" {
-  const now = new Date();
-  if (
-    user.plan_tier === "pro" &&
-    user.plan_expires_at &&
-    new Date(user.plan_expires_at) > now
-  ) {
-    return "pro";
-  }
-  if (
-    user.plan_tier === "trial" &&
-    user.trial_ends_at &&
-    new Date(user.trial_ends_at) > now
-  ) {
-    return "trial";
-  }
-  return "free";
-}
+import { PlanTier, UserProfile } from "@/types/sehatia";
 
 export async function checkUserQuota(user: UserProfile, hasImage: boolean) {
   const supabaseAdmin = getSupabaseAdmin();
-  const effectivePlan = resolveEffectivePlan(user);
-  const today = getJakartaDateString();
+  const now = new Date();
+  let effectivePlan: PlanTier = user.plan_tier;
 
+  if (effectivePlan === "pro" && user.plan_expires_at) {
+    if (new Date(user.plan_expires_at) < now) {
+      effectivePlan = "free";
+      await supabaseAdmin
+        .from("users")
+        .update({ plan_tier: "free" })
+        .eq("id", user.id);
+    }
+  } else if (effectivePlan === "trial" && user.trial_ends_at) {
+    if (new Date(user.trial_ends_at) < now) {
+      effectivePlan = "free";
+      await supabaseAdmin
+        .from("users")
+        .update({ plan_tier: "free" })
+        .eq("id", user.id);
+    }
+  }
+
+  const today = getJakartaDateString(now);
   const { count } = await supabaseAdmin
     .from("food_logs")
     .select("*", { count: "exact", head: true })
     .eq("user_id", user.id)
     .eq("log_date", today);
 
-  const usedToday = count ?? 0;
+  const usedToday = count || 0;
 
   if (effectivePlan === "pro") {
     const limit = 15;

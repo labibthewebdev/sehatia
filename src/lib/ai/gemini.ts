@@ -27,30 +27,29 @@ export async function parseOnboardingReply(
     contents: [
       {
         role: "user",
-        parts: [{ text: `Pesan user saat onboarding: "${userText}"` }],
+        parts: [
+          {
+            text: `Ekstrak data profil kesehatan pengguna dari pesan bahasa Indonesia ini: "${userText}".
+Field wajib: gender ('male' untuk pria/laki-laki/cowo, 'female' untuk wanita/perempuan/cewe), age (tahun), height_cm (cm), current_weight_kg (kg).
+Field opsional: name, target_weight_kg, goal ('lose_weight' jika mau turun BB/diet, 'gain_muscle' jika naik BB/bulking/otot, selain itu 'maintain').
+Jika salah satu dari 4 field wajib belum jelas, set is_complete = false dan tulis missing_fields_prompt yang ramah dalam Bahasa Indonesia untuk menanyakan kekurangan datanya.`,
+          },
+        ],
       },
     ],
     config: {
-      systemInstruction: `Ekstrak data profil kesehatan user dari pesan berbahasa Indonesia.
-Data wajib agar is_complete = true: gender ('male' atau 'female'), age (angka tahun), height_cm (angka cm), current_weight_kg (angka kg).
-Jika target_weight_kg tidak disebut, isi sama dengan current_weight_kg.
-Tentukan goal: 'lose_weight' (jika ingin turun/diet/kurus atau target_weight < current_weight), 'gain_muscle' (jika ingin naik/bulking/otot), atau 'maintain' (jaga berat/hidup sehat).
-Jika ada data wajib yang kurang, set is_complete = false dan tulis missing_fields_prompt yang ramah & singkat dalam Bahasa Indonesia untuk menanyakan data yang belum lengkap.`,
       responseMimeType: "application/json",
       responseSchema: {
         type: Type.OBJECT,
         properties: {
           is_complete: { type: Type.BOOLEAN },
           name: { type: Type.STRING },
-          gender: { type: Type.STRING, enum: ["male", "female"] },
-          age: { type: Type.NUMBER },
+          gender: { type: Type.STRING },
+          age: { type: Type.INTEGER },
           height_cm: { type: Type.NUMBER },
           current_weight_kg: { type: Type.NUMBER },
           target_weight_kg: { type: Type.NUMBER },
-          goal: {
-            type: Type.STRING,
-            enum: ["lose_weight", "maintain", "gain_muscle"],
-          },
+          goal: { type: Type.STRING },
           missing_fields_prompt: { type: Type.STRING },
         },
         required: ["is_complete", "goal", "missing_fields_prompt"],
@@ -58,65 +57,67 @@ Jika ada data wajib yang kurang, set is_complete = false dan tulis missing_field
     },
   });
 
-  return JSON.parse(response.text!) as ParsedOnboardingProfile;
+  const parsed = JSON.parse(response.text || "{}") as ParsedOnboardingProfile;
+  const hasAllRequired = Boolean(
+    (parsed.gender === "male" || parsed.gender === "female") &&
+      parsed.age &&
+      parsed.height_cm &&
+      parsed.current_weight_kg
+  );
+
+  return {
+    ...parsed,
+    is_complete: hasAllRequired,
+    goal:
+      parsed.goal === "gain_muscle" || parsed.goal === "maintain"
+        ? parsed.goal
+        : "lose_weight",
+  };
 }
 
 export async function analyzeMealWithGemini(params: {
-  text?: string | null;
-  imageBase64?: string | null;
-  imageMimeType?: string | null;
-  lastFoodLog?: FoodLog | null;
+  text?: string;
+  imageBase64?: string;
+  imageMimeType?: string;
+  lastMealLog?: FoodLog | null;
 }): Promise<GeminiMealAnalysis> {
   const ai = getGeminiClient();
-  const { text, imageBase64, imageMimeType, lastFoodLog } = params;
 
-  const parts: Array<
-    { text: string } | { inlineData: { data: string; mimeType: string } }
-  > = [];
+  const lastLogContext = params.lastMealLog
+    ? `Log makanan terakhir user hari ini: "${params.lastMealLog.meal_summary}" (${params.lastMealLog.total_calories} kkal, rincian: ${JSON.stringify(params.lastMealLog.items)}). Jika pesan user saat ini adalah koreksi atas log tersebut (contoh: "nasinya setengah aja", "ayamnya dada tanpa kulit", "es tehnya tawar"), set is_revision_of_last_log = true dan hitung ulang seluruh komponennya.`
+    : `Tidak ada log makanan sebelumnya hari ini, maka is_revision_of_last_log = false.`;
 
-  if (imageBase64 && imageMimeType) {
+  const prompt = `Kamu adalah ahli gizi Indonesia (standar TKPI Kemenkes RI) untuk aplikasi Sehatia.
+Tugas: Analisis makanan/minuman dari foto dan/atau teks pengguna: "${params.text || "(Foto makanan tanpa teks)"}".
+${lastLogContext}
+
+Aturan:
+1. Jika input sama sekali bukan makanan/minuman dan bukan koreksi log terakhir (misal sapaan "halo", "tes", "makasih"), set is_food_or_drink = false dan isi short_feedback_id dengan balasan ramah yang mengarahkan user mengirim foto atau nama makanan.
+2. Pecah setiap komponen hidangan (misal nasi putih, ayam goreng, sambal, es teh manis) beserta estimasi gram/porsinya.
+3. Hitung kalori (kkal), protein (g), karbohidrat (g), lemak (g), dan gula (g) secara realistis sesuai porsi Indonesia.
+4. Tulis short_feedback_id (maksimal 1-2 kalimat) berisi insight gizi singkat yang suportif dalam Bahasa Indonesia.`;
+
+  const parts: Array<Record<string, unknown>> = [{ text: prompt }];
+  if (params.imageBase64 && params.imageMimeType) {
     parts.push({
       inlineData: {
-        data: imageBase64,
-        mimeType: imageMimeType,
+        data: params.imageBase64,
+        mimeType: params.imageMimeType,
       },
     });
   }
-
-  let contextPrompt = "";
-  if (lastFoodLog && !imageBase64 && text) {
-    contextPrompt = `Konteks log makanan terakhir user hari ini (gunakan HANYA jika pesan user terlihat seperti koreksi/revisi atas makanan ini, misalnya "nasinya setengah aja", "tanpa kerupuk", "ganti ayam dada"):
-- Nama Hidangan: ${lastFoodLog.meal_summary}
-- Komponen Sebelumnya: ${JSON.stringify(lastFoodLog.items)}
-\n`;
-  }
-
-  parts.push({
-    text: `${contextPrompt}Input user: ${text ? `"${text}"` : "(Hanya mengirim foto makanan tanpa teks)"}`,
-  });
 
   const response = await ai.models.generateContent({
     model: "gemini-2.5-flash",
     contents: [{ role: "user", parts }],
     config: {
-      systemInstruction: `Kamu adalah Ahli Gizi AI Sehatia yang mengkhususkan diri pada makanan dan minuman khas Indonesia (masakan rumahan, warteg, nasi padang, jajanan kaki lima, kopi kekinian, hingga produk kemasan).
-
-ATURAN ANALISIS:
-1. Gunakan referensi nilai gizi Tabel Komposisi Pangan Indonesia (TKPI) dan ukuran porsi lazim di Indonesia (1 centong nasi = 100g, 1 porsi nasi piring standar = 150g, 1 sdm minyak/sambal berminyak = ~95 kkal).
-2. Pecah makanan menjadi komponen terpisah (misal: Nasi Putih, Ayam Goreng, Sambal, Lalapan) agar mudah dikoreksi user.
-3. Perhitungkan hidden calories seperti minyak goreng, santan, gula dalam minuman kopi/teh/boba. Jika user menulis "less sugar" atau "tanpa nasi", ikuti teks user sebagai prioritas utama.
-4. Jika tidak ada foto baru dan teks user merupakan koreksi terhadap log makanan terakhir di konteks, set is_revision_of_last_log = true dan hitung ulang komposisi yang sudah direvisi.
-5. Jika input sama sekali bukan makanan/minuman maupun revisi makan (misal hanya sapaan "halo" atau pertanyaan acak), set is_food_or_drink = false dan berikan panduan singkat ramah pada short_feedback_id.`,
       responseMimeType: "application/json",
       responseSchema: {
         type: Type.OBJECT,
         properties: {
           is_food_or_drink: { type: Type.BOOLEAN },
           is_revision_of_last_log: { type: Type.BOOLEAN },
-          meal_type: {
-            type: Type.STRING,
-            enum: ["breakfast", "lunch", "dinner", "snack"],
-          },
+          meal_type: { type: Type.STRING },
           meal_summary: { type: Type.STRING },
           items: {
             type: Type.ARRAY,
@@ -151,12 +152,15 @@ ATURAN ANALISIS:
               fat_g: { type: Type.NUMBER },
               sugar_g: { type: Type.NUMBER },
             },
-            required: ["calories", "protein_g", "carbs_g", "fat_g", "sugar_g"],
+            required: [
+              "calories",
+              "protein_g",
+              "carbs_g",
+              "fat_g",
+              "sugar_g",
+            ],
           },
-          ai_confidence: {
-            type: Type.STRING,
-            enum: ["high", "medium", "low"],
-          },
+          ai_confidence: { type: Type.STRING },
           short_feedback_id: { type: Type.STRING },
         },
         required: [
@@ -173,5 +177,5 @@ ATURAN ANALISIS:
     },
   });
 
-  return JSON.parse(response.text!) as GeminiMealAnalysis;
+  return JSON.parse(response.text || "{}") as GeminiMealAnalysis;
 }

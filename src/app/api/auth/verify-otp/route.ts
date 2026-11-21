@@ -6,17 +6,24 @@ import { createSessionCookie } from "@/lib/auth/session";
 export async function POST(req: NextRequest) {
   try {
     const supabaseAdmin = getSupabaseAdmin();
-    const { phone, code } = await req.json();
-    const normalized = normalizePhoneNumber(String(phone || ""));
-    const cleanCode = String(code || "").trim();
+    const body = await req.json();
+    const phone = normalizePhoneNumber(body.phone || "");
+    const code = (body.code || "").trim();
+
+    if (!phone || code.length !== 6) {
+      return NextResponse.json(
+        { error: "Nomor WhatsApp atau kode OTP 6 digit tidak valid." },
+        { status: 400 }
+      );
+    }
 
     const { data: otpRecord } = await supabaseAdmin
       .from("otp_codes")
       .select("*")
-      .eq("phone_number", normalized)
-      .eq("code", cleanCode)
+      .eq("phone_number", phone)
+      .eq("code", code)
       .eq("used", false)
-      .gt("expires_at", new Date().toISOString())
+      .gte("expires_at", new Date().toISOString())
       .order("created_at", { ascending: false })
       .limit(1)
       .single();
@@ -24,7 +31,7 @@ export async function POST(req: NextRequest) {
     if (!otpRecord) {
       return NextResponse.json(
         { error: "Kode OTP salah atau sudah kedaluwarsa." },
-        { status: 400 }
+        { status: 401 }
       );
     }
 
@@ -36,7 +43,7 @@ export async function POST(req: NextRequest) {
     const { data: user } = await supabaseAdmin
       .from("users")
       .select("id, phone_number")
-      .eq("phone_number", normalized)
+      .eq("phone_number", phone)
       .single();
 
     if (!user) {
@@ -55,7 +62,7 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     console.error("Verify OTP Error:", error);
     return NextResponse.json(
-      { error: "Terjadi kesalahan saat verifikasi." },
+      { error: "Terjadi kesalahan saat verifikasi OTP." },
       { status: 500 }
     );
   }

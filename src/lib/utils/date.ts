@@ -1,7 +1,3 @@
-/**
- * Mengembalikan tanggal hari ini dalam format YYYY-MM-DD berdasarkan zona waktu WIB (Asia/Jakarta).
- * Mencegah bug reset kuota harian pada pukul 07:00 pagi WIB akibat perbedaan UTC.
- */
 export function getJakartaDateString(date = new Date()): string {
   const formatter = new Intl.DateTimeFormat("en-CA", {
     timeZone: "Asia/Jakarta",

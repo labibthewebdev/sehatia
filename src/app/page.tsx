@@ -32,11 +32,11 @@ export default function LandingPage() {
           </div>
 
           <nav className="hidden items-center gap-7 text-xs font-medium text-[#6E6E73] md:flex">
-            <a href="#cara-kerja" className="transition hover:text-[#1D1D1F]">
-              Cara Kerja
-            </a>
             <a href="#pola-makan" className="transition hover:text-[#1D1D1F]">
               Nutrisi & Diet
+            </a>
+            <a href="#cara-kerja" className="transition hover:text-[#1D1D1F]">
+              Cara Kerja
             </a>
             <a href="#harga" className="transition hover:text-[#1D1D1F]">
               Sehatia Pro
@@ -399,14 +399,14 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* BAND 3: CARA KERJA — Apple Dark Showcase Band (#16181A) */}
+        {/* BAND 3: CARA KERJA — Apple Dark Showcase Band */}
         <section
           id="cara-kerja"
-          className="relative bg-gradient-to-b from-[#16181A] via-[#1D1D1F] to-[#121417] py-22 text-white [background-image:radial-gradient(rgba(255,255,255,0.08)_1px,transparent_1px)] [background-size:22px_22px]"
+          className="relative bg-[#141619] py-20 text-white"
         >
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute left-1/2 top-0 h-72 w-[680px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(16,185,129,0.22),transparent_70%)] blur-2xl"
+            className="pointer-events-none absolute left-1/2 top-0 h-72 w-[680px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(16,185,129,0.2),transparent_70%)] blur-2xl"
           />
 
           <div className="relative mx-auto max-w-6xl px-6">
@@ -420,7 +420,7 @@ export default function LandingPage() {
             </div>
 
             <div className="grid gap-5 sm:grid-cols-3">
-              <div className="rounded-[28px] border border-white/10 bg-white/[0.06] p-7 shadow-[0_12px_32px_rgba(0,0,0,0.25)] backdrop-blur-xl">
+              <div className="rounded-[28px] border border-white/10 bg-[#1F2329] p-7 shadow-[0_12px_32px_rgba(0,0,0,0.3)]">
                 <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-500/20 text-emerald-300">
                   <Camera className="h-5 w-5" />
                 </div>
@@ -433,7 +433,7 @@ export default function LandingPage() {
                 </p>
               </div>
 
-              <div className="rounded-[28px] border border-white/10 bg-white/[0.06] p-7 shadow-[0_12px_32px_rgba(0,0,0,0.25)] backdrop-blur-xl">
+              <div className="rounded-[28px] border border-white/10 bg-[#1F2329] p-7 shadow-[0_12px_32px_rgba(0,0,0,0.3)]">
                 <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-sky-500/20 text-sky-300">
                   <Utensils className="h-5 w-5" />
                 </div>
@@ -446,7 +446,7 @@ export default function LandingPage() {
                 </p>
               </div>
 
-              <div className="rounded-[28px] border border-white/10 bg-white/[0.06] p-7 shadow-[0_12px_32px_rgba(0,0,0,0.25)] backdrop-blur-xl">
+              <div className="rounded-[28px] border border-white/10 bg-[#1F2329] p-7 shadow-[0_12px_32px_rgba(0,0,0,0.3)]">
                 <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-amber-500/20 text-amber-300">
                   <ShieldCheck className="h-5 w-5" />
                 </div>

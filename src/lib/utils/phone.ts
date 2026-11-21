@@ -1,7 +1,3 @@
-/**
- * Menyeragamkan format nomor HP ke format standar 628xxxxxxxxxx
- * agar nomor dari form login web (08xx / +628xx) dan Fonnte (628xx) selalu cocok.
- */
 export function normalizePhoneNumber(raw: string): string {
   let digits = raw.replace(/\D/g, "");
   if (digits.startsWith("0")) {

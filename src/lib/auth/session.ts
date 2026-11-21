@@ -4,9 +4,9 @@ import { cookies } from "next/headers";
 const COOKIE_NAME = "sehatia_session";
 
 function getSecret() {
-  return new TextEncoder().encode(
-    process.env.JWT_SECRET || "sehatia_default_secret_key_minimal_32_chars"
-  );
+  const raw =
+    process.env.JWT_SECRET || "sehatia_default_secret_key_minimal_32_karakter";
+  return new TextEncoder().encode(raw);
 }
 
 export interface SessionPayload {

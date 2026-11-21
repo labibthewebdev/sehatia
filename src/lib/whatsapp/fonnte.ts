@@ -26,13 +26,9 @@ export async function sendWhatsAppMessage(targetPhone: string, message: string) 
   return response.json().catch(() => null);
 }
 
-/**
- * Mengunduh gambar dari URL media Fonnte dan mengubahnya menjadi Base64 untuk Gemini Vision.
- */
-export async function downloadMediaAsBase64(mediaUrl: string): Promise<{
-  base64: string;
-  mimeType: string;
-} | null> {
+export async function downloadMediaAsBase64(
+  mediaUrl: string
+): Promise<{ base64: string; mimeType: string } | null> {
   try {
     const res = await fetch(mediaUrl);
     if (!res.ok) return null;

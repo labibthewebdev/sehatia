@@ -1,24 +1,24 @@
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
 -- 1. Tabel Users
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  phone_number VARCHAR(20) UNIQUE NOT NULL, -- Format konsisten: 628xxxx
+  phone_number VARCHAR(20) UNIQUE NOT NULL,
   name VARCHAR(100),
-  gender VARCHAR(10), -- 'male' | 'female'
+  gender VARCHAR(10),
   age INT,
   height_cm NUMERIC(5,2),
   current_weight_kg NUMERIC(5,2),
   target_weight_kg NUMERIC(5,2),
-  goal VARCHAR(20) DEFAULT 'lose_weight', -- 'lose_weight' | 'maintain' | 'gain_muscle'
+  goal VARCHAR(20) DEFAULT 'lose_weight',
   daily_calorie_target INT DEFAULT 1800,
   daily_protein_target_g INT DEFAULT 120,
   daily_carbs_target_g INT DEFAULT 180,
   daily_fat_target_g INT DEFAULT 55,
-  plan_tier VARCHAR(20) DEFAULT 'trial', -- 'trial' | 'free' | 'pro'
+  plan_tier VARCHAR(20) DEFAULT 'trial',
   trial_ends_at TIMESTAMPTZ DEFAULT (NOW() + INTERVAL '3 days'),
   plan_expires_at TIMESTAMPTZ,
-  onboarding_step VARCHAR(30) DEFAULT 'ask_profile', -- 'ask_profile' | 'completed'
+  onboarding_step VARCHAR(30) DEFAULT 'ask_profile',
   pending_image_url TEXT,
   pending_caption TEXT,
   created_at TIMESTAMPTZ DEFAULT NOW(),
@@ -26,7 +26,7 @@ CREATE TABLE users (
 );
 
 -- 2. Tabel OTP Login WhatsApp
-CREATE TABLE otp_codes (
+CREATE TABLE IF NOT EXISTS otp_codes (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   phone_number VARCHAR(20) NOT NULL,
   code VARCHAR(6) NOT NULL,
@@ -35,14 +35,14 @@ CREATE TABLE otp_codes (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE INDEX idx_otp_phone ON otp_codes(phone_number, created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_otp_phone ON otp_codes(phone_number, created_at DESC);
 
 -- 3. Tabel Log Makanan Harian
-CREATE TABLE food_logs (
+CREATE TABLE IF NOT EXISTS food_logs (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   log_date DATE NOT NULL,
-  meal_type VARCHAR(20) DEFAULT 'snack', -- 'breakfast' | 'lunch' | 'dinner' | 'snack'
+  meal_type VARCHAR(20) DEFAULT 'snack',
   raw_input_text TEXT,
   image_url TEXT,
   meal_summary VARCHAR(255) NOT NULL,
@@ -58,18 +58,4 @@ CREATE TABLE food_logs (
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE INDEX idx_food_logs_user_date ON food_logs(user_id, log_date DESC);
-
--- 4. Tabel Langganan & Transaksi Midtrans
-CREATE TABLE subscriptions (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-  order_id VARCHAR(100) UNIQUE NOT NULL,
-  plan_name VARCHAR(50) NOT NULL, -- 'pro_monthly' | 'pro_quarterly'
-  amount_idr INT NOT NULL,
-  status VARCHAR(20) DEFAULT 'pending', -- 'pending' | 'paid' | 'expired' | 'failed'
-  snap_token TEXT,
-  payment_url TEXT,
-  paid_at TIMESTAMPTZ,
-  created_at TIMESTAMPTZ DEFAULT NOW()
-);
+CREATE INDEX IF NOT EXISTS idx_food_logs_user_date ON food_logs(user_id, log_date DESC);
