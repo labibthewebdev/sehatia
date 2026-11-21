@@ -20,7 +20,7 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-[#F5F5F7] text-[#1D1D1F]">
       {/* Frosted Glass Navbar ala Apple */}
-      <header className="sticky top-0 z-40 border-b border-black/[0.06] bg-white/75 backdrop-blur-xl">
+      <header className="sticky top-0 z-40 border-b border-black/[0.06] bg-white/80 backdrop-blur-xl">
         <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-6">
           <div className="flex items-center gap-2.5">
             <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-tr from-emerald-600 to-teal-400 text-xs font-bold text-white shadow-sm">
@@ -63,16 +63,16 @@ export default function LandingPage() {
       </header>
 
       <main className="overflow-hidden">
-        {/* HERO SECTION dengan Ambient Mesh Glow */}
-        <section className="relative bg-gradient-to-b from-white via-[#F5F5F7] to-[#F5F5F7] pb-20 pt-14 sm:pt-20">
+        {/* BAND 1: HERO — Terang Bersih dengan Emerald/Teal Mesh Glow */}
+        <section className="relative border-b border-black/[0.06] bg-gradient-to-b from-[#ECFDF5]/80 via-white to-[#F5F5F7] pb-20 pt-14 sm:pt-20">
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute left-1/2 top-12 h-[440px] w-[780px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.16),rgba(20,184,166,0.08)_45%,transparent_72%)] blur-2xl"
+            className="pointer-events-none absolute left-1/2 top-8 h-[460px] w-[820px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.22),rgba(20,184,166,0.12)_48%,transparent_75%)] blur-2xl"
           />
 
           <div className="relative mx-auto max-w-6xl px-6">
             <div className="mx-auto max-w-3xl text-center">
-              <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-black/[0.06] bg-white/90 px-4 py-1.5 text-xs font-medium text-[#6E6E73] shadow-sm backdrop-blur">
+              <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-emerald-600/15 bg-white/95 px-4 py-1.5 text-xs font-medium text-[#1D1D1F] shadow-sm backdrop-blur">
                 <Sparkles className="h-3.5 w-3.5 text-emerald-600" />
                 <span>AI Nutritionist • Standar TKPI Kemenkes Indonesia</span>
               </div>
@@ -113,8 +113,8 @@ export default function LandingPage() {
 
             {/* VISUAL SHOWCASE */}
             <div className="mt-14 grid items-center gap-6 lg:grid-cols-12">
-              <div className="rounded-[32px] border border-black/[0.06] bg-white/95 p-6 shadow-[0_12px_40px_rgba(0,0,0,0.05)] backdrop-blur lg:col-span-4">
-                <div className="flex items-center justify-between border-b border-black/[0.05] pb-4">
+              <div className="rounded-[32px] border border-black/[0.07] bg-white p-6 shadow-[0_14px_40px_rgba(0,0,0,0.06)] lg:col-span-4">
+                <div className="flex items-center justify-between border-b border-black/[0.06] pb-4">
                   <div className="flex items-center gap-2.5">
                     <div className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-600 text-xs font-bold text-white">
                       S
@@ -165,7 +165,7 @@ export default function LandingPage() {
                 </div>
               </div>
 
-              <div className="relative overflow-hidden rounded-[36px] border border-black/[0.06] bg-white shadow-[0_20px_50px_rgba(0,0,0,0.08)] lg:col-span-4">
+              <div className="relative overflow-hidden rounded-[36px] border border-black/[0.07] bg-white shadow-[0_20px_50px_rgba(0,0,0,0.09)] lg:col-span-4">
                 <div className="relative h-[410px] w-full">
                   <img
                     src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=900&q=85"
@@ -174,12 +174,12 @@ export default function LandingPage() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
 
-                  <div className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-white/85 px-3.5 py-1.5 text-[11px] font-semibold text-[#1D1D1F] backdrop-blur-md">
+                  <div className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-white/90 px-3.5 py-1.5 text-[11px] font-semibold text-[#1D1D1F] backdrop-blur-md">
                     <Camera className="h-3.5 w-3.5 text-emerald-600" />
                     <span>AI Vision Scan • 98% Akurat</span>
                   </div>
 
-                  <div className="absolute bottom-4 left-4 right-4 rounded-3xl border border-white/20 bg-white/90 p-4 backdrop-blur-xl">
+                  <div className="absolute bottom-4 left-4 right-4 rounded-3xl border border-white/20 bg-white/95 p-4 backdrop-blur-xl">
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-[11px] font-medium text-[#6E6E73]">
@@ -197,7 +197,7 @@ export default function LandingPage() {
                 </div>
               </div>
 
-              <div className="rounded-[32px] border border-black/[0.06] bg-white/95 p-6 shadow-[0_12px_40px_rgba(0,0,0,0.05)] backdrop-blur lg:col-span-4">
+              <div className="rounded-[32px] border border-black/[0.07] bg-white p-6 shadow-[0_14px_40px_rgba(0,0,0,0.06)] lg:col-span-4">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-xs font-medium text-[#6E6E73]">
@@ -303,23 +303,23 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* SECTION 2: POLA MAKAN — Latar Putih Bersih + Soft Mint Wash */}
+        {/* BAND 2: POLA MAKAN — Putih Crisp dengan Warm Mint Accent */}
         <section
           id="pola-makan"
-          className="relative border-y border-black/[0.06] bg-white py-20"
+          className="relative bg-gradient-to-b from-white via-[#F7FCFA] to-[#EBF7F2] py-20"
         >
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute right-0 top-0 h-80 w-80 rounded-full bg-[radial-gradient(circle,rgba(16,185,129,0.09),transparent_70%)] blur-2xl"
+            className="pointer-events-none absolute -right-16 top-10 h-96 w-96 rounded-full bg-[radial-gradient(circle,rgba(16,185,129,0.16),transparent_70%)] blur-2xl"
           />
 
           <div className="relative mx-auto max-w-6xl px-6">
             <div className="mb-10 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
               <div>
-                <span className="text-xs font-semibold uppercase tracking-wider text-emerald-600">
+                <span className="inline-block rounded-full bg-emerald-600/10 px-3 py-1 text-xs font-semibold text-emerald-700">
                   Pola Makan Nyata
                 </span>
-                <h2 className="mt-1 text-3xl font-semibold tracking-tight sm:text-4xl">
+                <h2 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">
                   Diet tetap nikmat dengan makanan sehari-hari.
                 </h2>
               </div>
@@ -330,18 +330,18 @@ export default function LandingPage() {
             </div>
 
             <div className="grid gap-5 md:grid-cols-3">
-              <div className="group overflow-hidden rounded-[28px] border border-black/[0.06] bg-[#FAFAFB] shadow-[0_2px_14px_rgba(0,0,0,0.03)]">
+              <div className="group overflow-hidden rounded-[28px] border border-black/[0.07] bg-white shadow-[0_8px_24px_rgba(0,0,0,0.04)]">
                 <div className="relative h-56 overflow-hidden">
                   <img
                     src="https://images.unsplash.com/photo-1525351484163-7529414342d8?auto=format&fit=crop&w=800&q=80"
                     alt="Sarapan Tinggi Protein"
                     className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                   />
-                  <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-[11px] font-semibold text-[#1D1D1F] backdrop-blur">
+                  <span className="absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1 text-[11px] font-semibold text-[#1D1D1F] shadow-sm backdrop-blur">
                     Sarapan • 340 kkal
                   </span>
                 </div>
-                <div className="bg-white p-6">
+                <div className="p-6">
                   <h3 className="text-base font-semibold">
                     Roti Gandum, Telur & Alpukat
                   </h3>
@@ -352,18 +352,18 @@ export default function LandingPage() {
                 </div>
               </div>
 
-              <div className="group overflow-hidden rounded-[28px] border border-black/[0.06] bg-[#FAFAFB] shadow-[0_2px_14px_rgba(0,0,0,0.03)]">
+              <div className="group overflow-hidden rounded-[28px] border border-black/[0.07] bg-white shadow-[0_8px_24px_rgba(0,0,0,0.04)]">
                 <div className="relative h-56 overflow-hidden">
                   <img
                     src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=800&q=80"
                     alt="Makan Siang Ayam Bakar"
                     className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                   />
-                  <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-[11px] font-semibold text-[#1D1D1F] backdrop-blur">
+                  <span className="absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1 text-[11px] font-semibold text-[#1D1D1F] shadow-sm backdrop-blur">
                     Makan Siang • 510 kkal
                   </span>
                 </div>
-                <div className="bg-white p-6">
+                <div className="p-6">
                   <h3 className="text-base font-semibold">
                     Dada Ayam Panggang & Sayur Segar
                   </h3>
@@ -374,18 +374,18 @@ export default function LandingPage() {
                 </div>
               </div>
 
-              <div className="group overflow-hidden rounded-[28px] border border-black/[0.06] bg-[#FAFAFB] shadow-[0_2px_14px_rgba(0,0,0,0.03)]">
+              <div className="group overflow-hidden rounded-[28px] border border-black/[0.07] bg-white shadow-[0_8px_24px_rgba(0,0,0,0.04)]">
                 <div className="relative h-56 overflow-hidden">
                   <img
                     src="https://images.unsplash.com/photo-1511690656952-34342bb7c2f2?auto=format&fit=crop&w=800&q=80"
                     alt="Smoothie Bowl Buah"
                     className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                   />
-                  <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-[11px] font-semibold text-[#1D1D1F] backdrop-blur">
+                  <span className="absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1 text-[11px] font-semibold text-[#1D1D1F] shadow-sm backdrop-blur">
                     Camilan Sore • 260 kkal
                   </span>
                 </div>
-                <div className="bg-white p-6">
+                <div className="p-6">
                   <h3 className="text-base font-semibold">
                     Berry Yogurt & Chia Bowl
                   </h3>
@@ -399,56 +399,61 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* SECTION 3: CARA KERJA — Subtle Dot Grid + Soft Slate/Sage Tint */}
+        {/* BAND 3: CARA KERJA — Apple Dark Showcase Band (#16181A) */}
         <section
           id="cara-kerja"
-          className="relative bg-[#F2F4F3] py-20 [background-image:radial-gradient(rgba(29,29,31,0.07)_1px,transparent_1px)] [background-size:20px_20px]"
+          className="relative bg-gradient-to-b from-[#16181A] via-[#1D1D1F] to-[#121417] py-22 text-white [background-image:radial-gradient(rgba(255,255,255,0.08)_1px,transparent_1px)] [background-size:22px_22px]"
         >
-          <div className="mx-auto max-w-6xl px-6">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute left-1/2 top-0 h-72 w-[680px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(16,185,129,0.22),transparent_70%)] blur-2xl"
+          />
+
+          <div className="relative mx-auto max-w-6xl px-6">
             <div className="mb-10 max-w-2xl">
-              <span className="text-xs font-semibold uppercase tracking-wider text-emerald-700">
+              <span className="inline-block rounded-full border border-emerald-400/25 bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-300">
                 Alur Tanpa Ribet
               </span>
-              <h2 className="mt-1 text-3xl font-semibold tracking-tight sm:text-4xl">
+              <h2 className="mt-2.5 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
                 Tiga langkah singkat di chat harianmu.
               </h2>
             </div>
 
             <div className="grid gap-5 sm:grid-cols-3">
-              <div className="rounded-[28px] border border-black/[0.06] bg-white/95 p-7 shadow-[0_2px_12px_rgba(0,0,0,0.03)] backdrop-blur">
-                <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600">
+              <div className="rounded-[28px] border border-white/10 bg-white/[0.06] p-7 shadow-[0_12px_32px_rgba(0,0,0,0.25)] backdrop-blur-xl">
+                <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-500/20 text-emerald-300">
                   <Camera className="h-5 w-5" />
                 </div>
-                <h3 className="text-lg font-semibold tracking-tight">
+                <h3 className="text-lg font-semibold tracking-tight text-white">
                   1. Kirim Foto ke WhatsApp
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-[#6E6E73]">
+                <p className="mt-2 text-sm leading-relaxed text-zinc-300">
                   Foto makananmu sebelum makan atau ketik singkat menunya langsung
                   di chat WhatsApp Sehatia.
                 </p>
               </div>
 
-              <div className="rounded-[28px] border border-black/[0.06] bg-white/95 p-7 shadow-[0_2px_12px_rgba(0,0,0,0.03)] backdrop-blur">
-                <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-blue-50 text-blue-600">
+              <div className="rounded-[28px] border border-white/10 bg-white/[0.06] p-7 shadow-[0_12px_32px_rgba(0,0,0,0.25)] backdrop-blur-xl">
+                <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-sky-500/20 text-sky-300">
                   <Utensils className="h-5 w-5" />
                 </div>
-                <h3 className="text-lg font-semibold tracking-tight">
+                <h3 className="text-lg font-semibold tracking-tight text-white">
                   2. Koreksi Porsi Instan
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-[#6E6E73]">
+                <p className="mt-2 text-sm leading-relaxed text-zinc-300">
                   Cukup balas &ldquo;nasinya setengah&rdquo; atau &ldquo;tanpa
                   kulit&rdquo;, AI langsung menghitung ulang nutrisinya.
                 </p>
               </div>
 
-              <div className="rounded-[28px] border border-black/[0.06] bg-white/95 p-7 shadow-[0_2px_12px_rgba(0,0,0,0.03)] backdrop-blur">
-                <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-amber-50 text-amber-600">
+              <div className="rounded-[28px] border border-white/10 bg-white/[0.06] p-7 shadow-[0_12px_32px_rgba(0,0,0,0.25)] backdrop-blur-xl">
+                <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-amber-500/20 text-amber-300">
                   <ShieldCheck className="h-5 w-5" />
                 </div>
-                <h3 className="text-lg font-semibold tracking-tight">
+                <h3 className="text-lg font-semibold tracking-tight text-white">
                   3. Pantau Grafik Harian
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-[#6E6E73]">
+                <p className="mt-2 text-sm leading-relaxed text-zinc-300">
                   Lihat sisa kuota kalori, target protein, dan tren 7 hari di Web
                   Dashboard kapan saja.
                 </p>
@@ -457,19 +462,19 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* SECTION 4: PRICING — Soft Gradient Band */}
+        {/* BAND 4: PRICING — Soft Emerald & Warm Neutral Band */}
         <section
           id="harga"
-          className="relative border-t border-black/[0.06] bg-gradient-to-b from-white via-emerald-50/35 to-[#F5F5F7] py-24"
+          className="relative bg-gradient-to-b from-[#E6F4EE] via-[#F5F5F7] to-[#EAECEF] py-24"
         >
           <div className="mx-auto max-w-5xl px-6">
-            <div className="rounded-[36px] border border-black/[0.06] bg-white p-8 shadow-[0_12px_36px_rgba(0,0,0,0.05)] sm:p-12">
+            <div className="rounded-[36px] border border-black/[0.07] bg-white p-8 shadow-[0_16px_42px_rgba(0,0,0,0.06)] sm:p-12">
               <div className="flex flex-col justify-between gap-8 sm:flex-row sm:items-center">
                 <div>
-                  <span className="text-xs font-semibold uppercase tracking-wider text-emerald-600">
+                  <span className="inline-block rounded-full bg-emerald-600/10 px-3 py-1 text-xs font-semibold text-emerald-700">
                     Sehatia Pro
                   </span>
-                  <h2 className="mt-1.5 text-2xl font-semibold tracking-tight sm:text-3xl">
+                  <h2 className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">
                     Mulai hidup sehat dengan biaya lebih hemat dari segelas kopi.
                   </h2>
                   <ul className="mt-6 space-y-3 text-sm text-[#6E6E73]">
@@ -488,7 +493,7 @@ export default function LandingPage() {
                   </ul>
                 </div>
 
-                <div className="shrink-0 rounded-[28px] border border-black/[0.05] bg-[#F5F5F7] p-7 text-center sm:w-72">
+                <div className="shrink-0 rounded-[28px] border border-black/[0.06] bg-gradient-to-b from-[#F5F5F7] to-[#ECEEF2] p-7 text-center sm:w-72">
                   <p className="text-xs font-medium text-[#6E6E73]">Mulai dari</p>
                   <div className="mt-1 flex items-baseline justify-center gap-1">
                     <span className="text-3xl font-bold tracking-tight">
